@@ -1,59 +1,78 @@
-import math
+from programme.equation import EquationSecondDegre
 
-class EquationSecondDegre:
-    def __init__(self, a, b, c):
-        self.a = a
-        self.b = b
-        self.c = c
 
-    def afficher_equation(self):
-        print(f"Équation : {self.a}x² + {self.b}x + {self.c} = 0")
+def main():
+    """
+    Programme principal :
+    - Demande les coefficients
+    - Crée l'objet équation
+    - Affiche et résout l'équation
+    """
 
-    def calculer_delta(self):
-        return self.b**2 - 4*self.a*self.c
+    print("=====================================")
+    print("   RÉSOLUTION ÉQUATION 2ND DEGRÉ")
+    print("=====================================\n")
 
-    def resoudre(self):
-        a, b, c = self.a, self.b, self.c
+    try:
+        # =========================
+        # SAISIE UTILISATEUR
+        # =========================
+        a = float(input("Entrer la valeur de a : "))
+        b = float(input("Entrer la valeur de b : "))
+        c = float(input("Entrer la valeur de c : "))
 
-        if a == 0:
-            print("Ce n'est pas une équation du second degré.")
-            if b == 0:git
-                if c == 0:
-                    print("Infinité de solutions.")
-                else:
-                    print("Aucune solution.")
-            else:
-                x = -c / b
-                print(f"Solution unique : x = {x}")
-            return
+        # =========================
+        # CRÉATION DE L'ÉQUATION
+        # =========================
+        equation = EquationSecondDegre(a, b, c)
 
-        delta = self.calculer_delta()
-        print(f"Delta (Δ) = {delta}")
+        # =========================
+        # AFFICHAGE DE L'ÉQUATION
+        # =========================
+        equation.afficher_equation()
 
-        if delta > 0:
-            x1 = (-b - math.sqrt(delta)) / (2*a)
-            x2 = (-b + math.sqrt(delta)) / (2*a)
-            print(f"Deux solutions réelles :")
-            print(f"x1 = {x1}")
-            print(f"x2 = {x2}")
+        # =========================
+        # RÉSOLUTION
+        # =========================
+        resultat = equation.resoudre()
 
-        elif delta == 0:
-            x = -b / (2*a)
-            print("Une seule solution réelle :")
-            print(f"x = {x}")
+        # =========================
+        # AFFICHAGE DES RÉSULTATS
+        # =========================
+        print("\n========== RÉSULTAT ==========")
 
-        else:
-            print("Aucune solution réelle (delta négatif).")
-            x1 = complex(-b, math.sqrt(-delta)) / (2*a)
-            x2 = complex(-b, -math.sqrt(-delta)) / (2*a)
-            print(f"Solutions complexes :")
-            print(f"x1 = {x1}")
-            print(f"x2 = {x2}")
+        if resultat["type"] == "deux_solutions_reelles":
+            print("✔ Deux solutions réelles :")
+            print(f"x1 = {resultat['x1']}")
+            print(f"x2 = {resultat['x2']}")
 
-a = float(input("Entrer a : "))
-b = float(input("Entrer b : "))
-c = float(input("Entrer c : "))
+        elif resultat["type"] == "une_solution":
+            print("✔ Une seule solution réelle :")
+            print(f"x = {resultat['x']}")
 
-eq = EquationSecondDegre(a, b, c)
-eq.afficher_equation()
-eq.resoudre()
+        elif resultat["type"] == "solutions_complexes":
+            print("✔ Solutions complexes :")
+            print(f"x1 = {resultat['x1']}")
+            print(f"x2 = {resultat['x2']}")
+
+        elif resultat["type"] == "lineaire":
+            print("✔ Équation du premier degré :")
+            print(f"x = {resultat['solution']}")
+
+        elif resultat["type"] == "indetermine":
+            print("♾ Infinité de solutions")
+
+        elif resultat["type"] == "impossible":
+            print("❌ Aucune solution")
+
+        print("=================================\n")
+
+    except ValueError:
+        print("❌ Erreur : veuillez entrer uniquement des nombres valides.")
+
+
+# =========================
+# LANCEMENT DU PROGRAMME
+# =========================
+if __name__ == "__main__":
+    main()

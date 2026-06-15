@@ -1,91 +1,110 @@
-# Importation du module math pour utiliser la racine carrée
+# Importation du module math
+# Permet d'utiliser sqrt() pour les racines carrées
 import math
 
+# Importation de cmath pour gérer les racines complexes
+# (utile quand delta < 0)
+import cmath
 
-# Déclaration de la classe EquationSecondDegre
+
+# ==========================================
+# CLASSE : EquationSecondDegre
+# Représente une équation : ax² + bx + c = 0
+# ==========================================
 class EquationSecondDegre:
 
-    # Constructeur de la classe
+    # Constructeur : initialise les coefficients
     def __init__(self, a, b, c):
 
-        # Initialisation du coefficient a
+        # Coefficient de x²
         self.a = a
 
-        # Initialisation du coefficient b
+        # Coefficient de x
         self.b = b
 
-        # Initialisation du coefficient c
+        # Terme constant
         self.c = c
 
-
-    # Méthode qui calcule le discriminant Δ
+    # ======================================
+    # MÉTHODE : calculer_delta
+    # Calcule le discriminant Δ = b² - 4ac
+    # ======================================
     def calculer_delta(self):
-
-        # Retourne la valeur de Δ = b² - 4ac
         return self.b ** 2 - 4 * self.a * self.c
 
-
-    # Méthode qui résout l'équation
+    # ======================================
+    # MÉTHODE : resoudre
+    # Résout complètement l'équation
+    # ======================================
     def resoudre(self):
 
-        # Vérifie si a est nul
+        # ==============================
+        # CAS 1 : a = 0 (pas du 2nd degré)
+        # ==============================
         if self.a == 0:
 
-            # Vérifie si b est différent de zéro
+            # Équation du type bx + c = 0
             if self.b != 0:
 
-                # Calcul de la solution du premier degré
+                # Calcul de la solution linéaire
                 x = -self.c / self.b
 
-                # Affichage de la solution
-                print("Équation du premier degré.")
-                print("x =", x)
+                print("Équation du premier degré")
+                print("Solution unique : x =", x)
 
             else:
 
-                # Vérifie si c est nul
+                # Cas 0x + c = 0
                 if self.c == 0:
 
-                    # Affichage du résultat
-                    print("Infinité de solutions.")
+                    print("Infinité de solutions (0 = 0)")
 
                 else:
 
-                    # Affichage du résultat
-                    print("Aucune solution.")
+                    print("Aucune solution (équation impossible)")
 
+            return  # arrêt de la fonction
+
+        # ==============================
+        # CAS 2 : équation du 2nd degré
+        # ==============================
+        delta = self.calculer_delta()
+
+        print("Δ =", delta)
+
+        # ----------------------------------
+        # CAS 2.1 : delta > 0 (2 solutions)
+        # ----------------------------------
+        if delta > 0:
+
+            x1 = (-self.b - math.sqrt(delta)) / (2 * self.a)
+            x2 = (-self.b + math.sqrt(delta)) / (2 * self.a)
+
+            print("Deux solutions réelles :")
+            print("x₁ =", x1)
+            print("x₂ =", x2)
+
+        # ----------------------------------
+        # CAS 2.2 : delta = 0 (1 solution)
+        # ----------------------------------
+        elif delta == 0:
+
+            x = -self.b / (2 * self.a)
+
+            print("Une solution réelle double :")
+            print("x =", x)
+
+        # ----------------------------------
+        # CAS 2.3 : delta < 0 (complexes)
+        # ----------------------------------
         else:
 
-            # Appel de la méthode calculer_delta()
-            delta = self.calculer_delta()
+            # Utilisation de cmath pour les complexes
+            sqrt_delta = cmath.sqrt(delta)
 
-            # Affichage de la valeur du discriminant
-            print("Δ =", delta)
+            x1 = (-self.b - sqrt_delta) / (2 * self.a)
+            x2 = (-self.b + sqrt_delta) / (2 * self.a)
 
-            # Cas où Δ est positif
-            if delta > 0:
-
-                # Calcul de la première solution
-                x1 = (-self.b - math.sqrt(delta)) / (2 * self.a)
-
-                # Calcul de la deuxième solution
-                x2 = (-self.b + math.sqrt(delta)) / (2 * self.a)
-
-                # Affichage des solutions
-                print("x₁ =", x1)
-                print("x₂ =", x2)
-
-            # Cas où Δ est nul
-            elif delta == 0:
-
-                # Calcul de la solution double
-                x = -self.b / (2 * self.a)
-
-                # Affichage de la solution
-                print("x =", x)
-
-            # Cas où Δ est négatif
-            else:
-
-                # Affichage du résultat
-                print("Pas de solution réelle.")
+            print("Solutions complexes :")
+            print("x₁ =", x1)
+            print("x₂ =", x2)
