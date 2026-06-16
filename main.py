@@ -1,4 +1,4 @@
-from equation import EquationSecondDegre
+from programme.equation import EquationSecondDegre
 
 
 def main():
